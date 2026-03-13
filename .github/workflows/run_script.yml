@@ -16,7 +16,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
           cache: "pip"
 
       - name: Install dependencies
@@ -31,4 +31,4 @@ jobs:
           echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
 
       - name: Run script
-        run: daily_data_collection.py
+        run: python daily_data_collection.py
