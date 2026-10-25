@@ -11,6 +11,7 @@ today = datetime.today() - timedelta(days=1)
 str_today = f'{today.year}-{today.month:02d}-{today.day:02d}'
 params = {'date': str_today}
 response = rq.get(api_url, params=params)
+response.raise_for_status()
 
 result = load_dotenv()
 if not result:
