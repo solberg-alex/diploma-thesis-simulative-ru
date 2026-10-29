@@ -21,6 +21,9 @@ db_user = os.getenv('DB_USER')
 db_pass = os.getenv('DB_PASS')
 db_port = os.getenv('DB_PORT')
 
+print(f"DEBUG: Host={db_host}, DB={db_name}, User={db_user}, Port={db_port}")
+print(f"DEBUG: Pass length={len(db_pass) if db_pass else 0}")
+
 conn = p2.connect(database=db_name, user=db_user, password=db_pass, host=db_host, port=db_port)
 cursor = conn.cursor()
 
