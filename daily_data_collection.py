@@ -13,9 +13,7 @@ params = {'date': str_today}
 response = rq.get(api_url, params=params)
 response.raise_for_status()
 
-result = load_dotenv()
-if not result:
-    raise EnvironmentError('Не удалось загрузить файл .env или переменные окружения')
+load_dotenv()
 
 db_host = os.getenv('DB_HOST')
 db_name = os.getenv('DB_NAME')
