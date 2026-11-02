@@ -28,16 +28,22 @@ conn = p2.connect(database=db_name, user=db_user, password=db_pass, host=db_host
 cursor = conn.cursor()
 
 upload_df = pd.DataFrame(response.json())
+upload_df['purchase_datetime'] = (
+    pd.to_datetime(upload_df['purchase_datetime']) +
+    pd.to_timedelta(upload_df['purchase_time_as_seconds_from_midnight'], unit='s')
+)
+upload_df = upload_df.drop(columns=['purchase_time_as_seconds_from_midnight'])
 
 def upload_to_db(df, table_name):
     output = StringIO()
     df.to_csv(output, sep='\t', header=False, index=False)
     output.seek(0)
     columns = (
-        'client_id', 'gender', 'purchase_datetime', 
-        'purchase_time_as_seconds_from_midnight', 'product_id', 
+        'client_id', 'gender', 'purchase_datetime', 'product_id', 
         'quantity', 'price_per_item', 'discount_per_item', 'total_price'
     )
+    cursor.execute(f"DELETE FROM {table_name} WHERE purchase_datetime::date = %s", (str_today,))
+    
     cursor.copy_from(output, table_name, sep='\t', columns=columns)
     conn.commit()
 
