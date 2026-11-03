@@ -2,7 +2,7 @@ name: Run sales loader
 
 on:
   schedule:
-    - cron: "0 4 * * *"
+    - cron: "41 3 * * *"
   workflow_dispatch:
 
 jobs:
